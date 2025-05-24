@@ -66,3 +66,8 @@ class LSrouter(Router):
         # TODO
         #   NOTE This method is for your own convenience and will not be graded
         return f"LSrouter(addr={self.addr})"
+    def __str__(self):
+        """String representation for debugging in the network visualizer."""
+        # TODO
+        #   NOTE This method is for your own convenience and will not be graded
+        return f"LSrouter(addr={self.addr})"

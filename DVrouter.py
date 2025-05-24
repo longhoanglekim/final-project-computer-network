@@ -13,8 +13,8 @@ class DVrouter(Router):
         self.distance_vector = {addr: 0}
         self.forwarding_table = {}
         self.neighbor_vectors = {}
-        self.port_map = {}         # port -> neighbor
-        self.addr_to_port = {}     # neighbor -> port
+        self.port_map = {}         
+        self.addr_to_port = {}     
 
     def handle_packet(self, port, packet):
         if packet.is_traceroute:
@@ -35,7 +35,6 @@ class DVrouter(Router):
         self.port_map[port] = endpoint
         self.addr_to_port[endpoint] = port
 
-        # Direct neighbor cost
         self.distance_vector[endpoint] = cost
         self.forwarding_table[endpoint] = (cost, port)
 
@@ -77,13 +76,13 @@ class DVrouter(Router):
                 src_addr=self.addr,
                 dst_addr=neighbor,
                 content=content,
-                kind='routing'  # Make sure this matches what packet.py expects!
+                kind='routing' 
             )
             self.send(port, packet)
 
     def update_distance_vector(self):
         updated = False
-        new_vector = {self.addr: 0}  # Cost to self is always 0
+        new_vector = {self.addr: 0}  
 
         all_dests = set()
         for vec in self.neighbor_vectors.values():
@@ -107,7 +106,6 @@ class DVrouter(Router):
                     min_cost = total_cost
                     min_port = port_to_neighbor
 
-            # Direct neighbor link
             if dest in self.addr_to_port:
                 direct_cost = self.distance_vector.get(dest, INFINITY)
                 if direct_cost < min_cost:
